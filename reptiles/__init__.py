@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_migrate import Migrate
+
 
 
 
@@ -18,11 +18,15 @@ def create_app():
 
     from .models import models
     models.db.init_app(app)
+    from flask_migrate import Migrate
     migrate = Migrate(app, models.db)
 
     @app.route('/')
     def index():
         return 'Hello, this is Reptiles API very first index page!'
+    
+    from .blueprints import reptile
+    app.register_blueprint(reptile.bp)
 
 
     return app
